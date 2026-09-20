@@ -1,6 +1,6 @@
 ---
 name: best-tdd-workflow
-description: "Use this skill whenever implementing a new feature end-to-end, especially ones that touch an API contract, database entities, or multiple callers. Enforces a strict six-phase gated workflow: (1) plan and impact analysis with stated assumptions and testable success criteria, (2) OpenAPI spec updates as the source of truth, (3) writing normal-path and edge-case tests that fail for the right reason before any implementation, (4) minimal implementation to turn tests green, (5) lint/refactor pass without changing behavior, (6) final verification and a single squashed commit. Trigger on requests like 'implement feature X', 'add endpoint for Y', or 'build out Z functionality' — not for one-off bug fixes, pure refactors, exploratory scripts, or changes with no API/contract surface, where the full spec-then-test-then-code sequence would be overkill."
+description: "Use this skill whenever implementing a new feature end-to-end, especially ones that touch an API contract, database entities, or multiple callers. It is a six-phase workflow that emphasizes planning, testing, and incremental development."
 ---
 
 # Feature Implementation Workflow
@@ -50,9 +50,11 @@ describes the new behavior including error cases.
 
 **Goal:** Encode the contract as failing tests before implementing.
 
+- Choose only the test types needed (unit: business logic, component: UI components, integration: system interactions, end-to-end: only for critical user journeys).
 - Write normal-path tests for expected inputs and outputs.
 - Write edge-case tests: empty/null, boundary values, invalid input,
-  auth/permission failures, conflicts, and error responses from the spec.
+  auth/permission failures, conflicts, duplicated requests, concurrent operations,
+  and error responses from the spec.
 - Aim to cover every documented case in the OpenAPI contract.
 - Tests must fail for the right reason (feature not implemented yet), not
   because of setup errors.
@@ -67,6 +69,7 @@ feature is not yet implemented.
 **Goal:** Write the minimum code that makes the tests pass.
 
 - Implement the simplest solution that satisfies the spec and tests.
+- Take care database safety (backward compatibility, indexes, constraints), concurrency & idempotency (duplicate requests, race conditions, retries, lost updates, double execution), observability (show logging, metrics, tracing if important to fix issues), and security (auth, permissions, input validation).
 - No features, abstractions, or configurability beyond what was asked.
 - Match existing project style, patterns, and libraries. Don't introduce new
   ones without reason.
