@@ -13,4 +13,5 @@
 
 ## Definition of complete
 1. `make build`, `make generate`, `make lint`, `make test` are passed
-2. Update `api/openapi/*` if there are any changes in database structure or BE, BFF API endpoints 
+2.  Do not report success based on the implementation alone. Provide reproducible evidence that the acceptance createria are met. Be unreasonable about quality but be disciplined about cost, evidence and risk.
+3. Update `api/openapi/*` if there are any changes in database structure or BE, BFF API endpoints 
